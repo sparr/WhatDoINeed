@@ -218,7 +218,8 @@ namespace WhatDoINeed
                     modules[j].TryGetValue("name", ref name);
                     if (name.Contains("ModuleDataTransmitter"))
                     {
-                        string m1 = "";
+                        // ModuleDataTransmitter's default, kept when the config omits antennaType
+                        string m1 = "DIRECT";
                         modules[j].TryGetValue("antennaType", ref m1);
                         Log.Info("antennaType: " + m1);
                         mdt = true;
