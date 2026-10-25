@@ -222,6 +222,9 @@ namespace WhatDoINeed
                         string m1 = "DIRECT";
                         modules[j].TryGetValue("antennaType", ref m1);
                         Log.Info("antennaType: " + m1);
+                        // Internal antennas cannot complete contracts
+                        if (m1 == "INTERNAL")
+                            continue;
                         mdt = true;
                         allAntennas.Add(new AvailPartWrapper(part, m1));
                     }
