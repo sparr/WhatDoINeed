@@ -211,20 +211,16 @@ namespace WhatDoINeed
             if (part.partPrefab.HasValidContractObjective("Antenna"))
             {
                 //repository.shipInfo.AddModuleType("Antenna");
+                // Check the prefab's modules by type, so that subclasses such as RealAntennas'
+                // ModuleRealAntenna count, with the same validity test as HasValidContractObjective
                 bool mdt = false;
-                for (int j = 0; j < modules.Length; j++)
+                for (int j = 0; j < part.partPrefab.Modules.Count; j++)
                 {
-                    string name = "";
-                    modules[j].TryGetValue("name", ref name);
-                    if (name.Contains("ModuleDataTransmitter"))
+                    if (part.partPrefab.Modules[j] is ModuleDataTransmitter transmitter &&
+                        transmitter.CheckContractObjectiveValidity())
                     {
-                        // ModuleDataTransmitter's default, kept when the config omits antennaType
-                        string m1 = "DIRECT";
-                        modules[j].TryGetValue("antennaType", ref m1);
+                        string m1 = transmitter.antennaType.ToString();
                         Log.Info("antennaType: " + m1);
-                        // Internal antennas cannot complete contracts
-                        if (m1 == "INTERNAL")
-                            continue;
                         mdt = true;
                         allAntennas.Add(new AvailPartWrapper(part, m1));
                     }
